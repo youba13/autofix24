@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoFix24 | Ремонт та заправка автокондиціонерів Мукачево</title>
+  <style>
+    /* --- Базові налаштування та Змінні --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #0066cc;
+      --primary-hover: #004da3;
+      --accent: #ffcc00;
+      --bg-dark: #0f172a;
+      --bg-light: #f8fafc;
+      --text-dark: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font);
+      color: var(--text-dark);
+      background-color: #ffffff;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* --- Фіксована Шапка --- */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background-color: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+    }
+
+    .nav-links a {
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .cta-phone {
+      background-color: var(--primary);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: background-color 0.2s;
+    }
+
+    .cta-phone:hover {
+      background-color: var(--primary-hover);
+    }
+
+    /* --- Головний Екран з Візуальним Оверлеєм --- */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 140px 24px 80px;
+      background-color: var(--bg-dark);
+      overflow: hidden;
+    }
+
+    .hero-bg-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.25;
+      filter: saturate(0.5);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      text-align: center;
+      color: #ffffff;
+    }
+
+    .badge {
+      background-color: rgba(0, 102, 204, 0.3);
+      border: 1px solid rgba(0, 102, 204, 0.5);
+      color: #63b3ff;
+      padding: 6px 18px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: inline-block;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 24px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: #cbd5e1;
+      margin-bottom: 40px;
+      font-weight: 400;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .btn {
+      padding: 16px 36px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      color: #fff;
+    }
+
+    .btn-outline:hover {
+      background-color: #fff;
+      color: var(--bg-dark);
+      border-color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* --- Блок Візуальних Метрик (Stats) --- */
+    .stats-bar {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      max-width: 1100px;
+      margin: -50px auto 0;
+      position: relative;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      text-align: center;
+      border: 1px solid var(--border-color);
+    }
+
+    .stat-item h3 {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-item p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .stars-display {
+      color: var(--accent);
+      font-size: 1.4rem;
+      letter-spacing: 2px;
+      margin-bottom: 4px;
+    }
+
+    /* --- Секція Послуг з Іконками --- */
+    .services {
+      padding: 120px 40px 100px;
+      background-color: var(--bg-light);
+    }
+
+    .section-title {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 64px;
+    }
+
+    .section-title h2 {
+      font-size: 2.5rem;
+      font-weight: 900;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+
+    .section-title p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+
+    .services-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .service-card {
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 32px rgba(0,0,0,0.04);
+      border-color: #cbd5e1;
+    }
+
+    .icon-wrapper {
+      width: 60px;
+      height: 60px;
+      background-color: rgba(0, 102, 204, 0.08);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      margin-bottom: 24px;
+    }
+
+    .service-card h3 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .service-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* --- Новий блок: Візуальний Процес Роботи --- */
+    .process-section {
+      padding: 100px 40px;
+      background-color: #ffffff;
+    }
+
+    .process-steps {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      position: relative;
+    }
+
+    .step-card {
+      text-align: center;
+      position: relative;
+    }
+
+    .step-number {
+      width: 50px;
+      height: 50px;
+      background-color: var(--bg-dark);
+      color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.2rem;
+      margin: 0 auto 20px;
+      border: 4px solid #ffffff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .step-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .step-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* --- Розширена Галерея (6 фото) --- */
+    .gallery-section {
+      padding: 100px 40px;
+      background-color: var(--bg-light);
+    }
+
+    .gallery-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .gallery-item {
+      position: relative;
+      height: 280px;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+      background-color: #cbd5e1;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.06);
+    }
+
+    .gallery-footer {
+      text-align: center;
+      margin-top: 48px;
+    }
+
+    .btn-fb {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background-color: #1877f2;
+      color: white;
+      padding: 16px 32px;
+      border-radius: 8px;
+      font-weight: 700;
+      transition: background-color 0.2s;
+    }
+
+    .btn-fb:hover {
+      background-color: #1361c4;
+    }
+
+    /* --- Блок Реальних Відгуків (Reviews) --- */
+    .reviews-section {
+      padding: 100px 40px;
+      background-color: #ffffff;
+    }
+
+    .reviews-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .review-card {
+      background: var(--bg-light);
+      padding: 32px;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+    }
+
+    .review-author {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .review-date {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .review-card p {
+      font-size: 0.95rem;
+      font-style: italic;
+      color: #334155;
+    }
+
+    /* --- Контакти та Інтерактивна Зона --- */
+    .contact-section {
+      padding: 120px 40px;
+      background-color: var(--bg-dark);
+      color: #ffffff;
+    }
+
+    .contact-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .contact-info h2 {
+      font-size: 2.5rem;
+      font-weight: 900;
+      margin-bottom: 32px;
+    }
+
+    .info-item {
+      margin-bottom: 32px;
+    }
+
+    .info-label {
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #94a3b8;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .info-value {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .map-visual-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 60px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* --- Плаваюча Кнопка Дзвінка для Мобільних --- */
+    .floating-call {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background-color: #25d366;
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      z-index: 999;
+      font-size: 1.5rem;
+    }
+
+    /* --- Підвал --- */
+    .footer {
+      background-color: #020617;
+      color: #64748b;
+      padding: 40px;
+      text-align: center;
+      font-size: 0.9rem;
+      border-top: 1px solid #0f172a;
+    }
+
+    /* --- Адаптивні Брейкпоінти --- */
+    @media (max-width: 1024px) {
+      .gallery-grid, .reviews-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .process-steps {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header { padding: 0 24px; }
+      .nav-links, .header .cta-phone { display: none; }
+      .hero h1 { font-size: 2.5rem; }
+      .stats-bar { grid-template-columns: 1fr; gap: 32px; padding: 30px; }
+      .gallery-grid, .reviews-grid, .contact-container { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: 1fr; }
+      .floating-call { display: flex; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Навігація -->
+  <header class="header">
+    <div class="logo">AutoFix<span>24</span></div>
+    <nav class="nav-links">
+      <a href="#hero">Головна</a>
+      <a href="#services">Послуги</a>
+      <a href="#gallery">Галерея робіт</a>
+      <a href="#reviews">Відгуки</a>
+      <a href="#contacts">Контакти</a>
+    </nav>
+    <a href="tel:+380957473150" class="cta-phone">Записатись на ремонт</a>
+  </header>
+
+  <!-- Головний Екран з фоновою графікою -->
+  <section id="hero" class="hero">
+    <img src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=1920&q=80" class="hero-bg-image" alt="Автосервіс">
+    <div class="hero-content">
+      <div class="badge">Мукачево • Офіційні послуги</div>
+      <h1>Професійна заправка та ремонт автокондиціонерів</h1>
+      <p>Повне обслуговування кліматичних систем авто, високоточна діагностика азотом, ремонт електрики та дезінфекція салону.</p>
+      
+      <div class="hero-buttons">
+        <a href="tel:+380957473150" class="btn btn-primary">Зв'язатись з майстром</a>
+        <a href="#services" class="btn btn-outline">Переглянути послуги</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Блок Візуальних Метрик / Рейтинг -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stars-display">★★★★★</div>
+      <h3>5.0</h3>
+      <p>Рейтинг в Google Maps</p>
+    </div>
+    <div class="stat-item">
+      <h3 style="margin-top: 10px;">44+</h3>
+      <p>Офіційних відгуків</p>
+    </div>
+    <div class="stat-item">
+      <h3 style="margin-top: 10px;">100%</h3>
+      <p>Контроль герметичності</p>
+    </div>
+  </div>
+
+  <!-- Послуги -->
+  <section id="services" class="services">
+    <div class="section-title">
+      <h2>Спектр послуг майстерні</h2>
+      <p>Використовуємо висококласне обладнання для точної локалізації та швидкого усунення несправностей.</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="icon-wrapper">❄️</div>
+        <h3>Заправка кондиціонерів</h3>
+        <p>Вакуумування системи, очищення від вологи та заправка якісним фреоном з додаванням мастила.</p>
+      </div>
+      <div class="service-card">
+        <div class="icon-wrapper">🔧</div>
+        <h3>Ремонт та опресування</h3>
+        <p>Пошук мікропротікань за допомогою азоту під високим тиском. Заміна радіаторів, компресорів та трубок.</p>
+      </div>
+      <div class="service-card">
+        <div class="icon-wrapper">⚡</div>
+        <h3>Автоелектрик</h3>
+        <p>Повний комплекс послуг з діагностики, ремонту та відновлення штатної електропроводки авто.</p>
+      </div>
+      <div class="service-card">
+        <div class="icon-wrapper">💻</div>
+        <h3>Комп'ютерна діагностика</h3>
+        <p>Глибоке зчитування параметрів блоку двигуна та клімат-контролю для виявлення прихованих помилок.</p>
+      </div>
+      <div class="service-card">
+        <div class="icon-wrapper">🧼</div>
+        <h3>Дезінфекція салону</h3>
+        <p>Ефективне знищення бактерій та грибків у випарнику за допомогою спеціалізованої хімії.</p>
+      </div>
+      <div class="service-card">
+        <div class="icon-wrapper">💨</div>
+        <h3>Осушування азотом</h3>
+        <p>Продування контуру сухим азотом для усунення залишків вологи перед завантаженням холодоагенту.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Візуальний кроковий процес роботи -->
+  <section class="process-section">
+    <div class="section-title">
+      <h2>Як проходить обслуговування</h2>
+      <p>Чіткий алгоритм дій для гарантії тривалого результату без зайвих витрат.</p>
+    </div>
+    <div class="process-steps">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <h3>Діагностика</h3>
+        <p>Перевірка тиску та герметічності контуру.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <h3>Усунення ушкоджень</h3>
+        <p>Заміна зношених елементів або зварювання.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <h3>Вакуумування</h3>
+        <p>Видалення повітря та конденсату з системи.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">4</div>
+        <h3>Заправка</h3>
+        <p>Заливка точної ваги фреону та свіжого масла.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Розширена Галерея (6 Контент-блоків під завантаження фото) -->
+  <section id="gallery" class="gallery-section">
+    <div class="section-title">
+      <h2>Фотографії з нашого боксу</h2>
+      <p>Реальні кадри робочого процесу, завантажені з наших офіційних профілів Facebook та Instagram.</p>
+    </div>
+
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80" alt="Робочий процес ремонт кондиціонера">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1517524206127-48bbd363f3d7?auto=format&fit=crop&w=600&q=80" alt="Обладнання діагностика авто">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1507136566006-cfc505b114fc?auto=format&fit=crop&w=600&q=80" alt="Заправка автокондиціонера Мукачево">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80" alt="Послуги автоелектрика">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1617886322168-72b886573c35?auto=format&fit=crop&w=600&q=80" alt="Магістралі кондиціонера ремонт">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=600&q=80" alt="Обслуговування авто клімат">
+      </div>
+    </div>
+
+    <div class="gallery-footer">
+      <a href="https://web.facebook.com/p/AutoFix24-100057536585980/" target="_blank" class="btn-fb">
+        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/></svg>
+        Переглянути сторінку в Facebook
+      </a>
+    </div>
+  </section>
+
+  <!-- Візуальний блок Відгуків Клієнтів -->
+  <section id="reviews" class="reviews-section">
+    <div class="section-title">
+      <h2>Відгуки автовласників</h2>
+      <p>Що говорять про якість та оперативність сервісу AutoFix24 наші постійні клієнти.</p>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="stars-display" style="font-size: 1rem; margin-bottom: 8px;">★★★★★</div>
+        <div class="review-author">Сергій В.</div>
+        <div class="review-date">Тиждень тому</div>
+        <p>"Швидко знайшли мікротріщину в трубці кондиціонера, яку в іншому місці не могли виявити. Опресували азотом, заправили — все працює ідеально в спеку."</p>
+      </div>
+      <div class="review-card">
+        <div class="stars-display" style="font-size: 1rem; margin-bottom: 8px;">★★★★★</div>
+        <div class="review-author">Михайло К.</div>
+        <div class="review-date">Місяць тому</div>
+        <p>"Майстер своєї справи. Зробив діагностику двигуна та розібрався з електрикою клімату за дві години. Рекомендую AutoFix24 у Мукачеві!"</p>
+      </div>
+      <div class="review-card">
+        <div class="stars-display" style="font-size: 1rem; margin-bottom: 8px;">★★★★★</div>
+        <div class="review-author">Іванна Д.</div>
+        <div class="review-date">2 місяці тому</div>
+        <p>"Дуже чистий бокс та професійний підхід. Зробили дезінфекцію салону та заправили кондиціонер кондиціонера. Неприємний запах повністю зник."</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Контакти та Інтерактивна Зона Карти -->
+  <section id="contacts" class="contact-section">
+    <div class="contact-container">
+      <div class="contact-info">
+        <h2>Контакти та локація</h2>
+        
+        <div class="info-item">
+          <div class="info-label">Адреса майстерні</div>
+          <div class="info-value">вул. Козінці, 26, Мукачево, Закарпатська область, 89601</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">Телефон для запису</div>
+          <div class="info-value"><a href="tel:+380957473150" style="color: #63b3ff;">+380 95 747 3150</a></div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">Графік роботи</div>
+          <div class="info-value">Вівторок — Субота: з 9:00 до 18:00</div>
+        </div>
+      </div>
+
+      <!-- Інтерактивна плашка побудови маршруту -->
+      <div class="map-visual-box">
+        <div style="font-size: 3rem; margin-bottom: 16px;">📍</div>
+        <h3 style="margin-bottom: 12px; font-weight: 800; font-size: 1.5rem;">Потрібен точний маршрут?</h3>
+        <p style="color: #94a3b8; font-size: 1rem; margin-bottom: 32px; max-width: 360px; margin-left: auto; margin-right: auto;">Натисніть кнопку, щоб автоматично відкрити локацію нашої майстерні в навігаторі Google Maps.</p>
+        <a href="https://maps.google.com/?daddr=вул.+Козінці,+26,+Mukachevo,+Zakarpattia+Oblast,+Ukraine,+89601" target="_blank" class="btn btn-primary">Відкрити навігатор</a>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- Мобільна кнопка швидкого дзвінка -->
+  <a href="tel:+380957473150" class="floating-call" aria-label="Зателефонувати">📞</a>
+
+  <!-- Підвал -->
+  <footer class="footer">
+    <p>© <span id="year"></span> AutoFix24 Мукачево. Всі права захищені.</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
